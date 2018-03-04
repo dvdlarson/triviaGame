@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Pacifico|Righteous" rel="stylesheet"> 
+    
+</head>
+<body>
+    <div id="titlescreen" class="container gameScreen" style="display:visible">
+        <div class="col-xs-12 col-md-12 text-center">
+        <img id="titleimg" src="./assets/media/title.png"/>
+        </div>
+    </div>
+    <div id="gamescreen" class="container gameScreen" style="display:none">
+            <div class="row">
+                    <div class="col-xs-12 col-md-12 h1 text-center" id="mainheader">Lights! Camera! Trivia!</div>
+                    <div class="col-xs-12 col-md-12 h3 text-center" id="timer">10</div>
+                    <div class="col-xs-12 col-md-12 h3 text-center" id="subheader" style="display:none"></div>
+            </div>
+            <div class="col-md-12 col-xs-12 text-center">
+                <p id="questionText" class="questionText text-center"></p>
+            </div>
+            <div class="col-md-12 col-xs-12 text-center">
+                <ul class="list-group">
+                    <li class="list-group-item answerGuess" data-value="" id="answer1" onclick="checkAnswer(this)"></li>
+                    <li class="list-group-item answerGuess" data-value="" id="answer2" onclick="checkAnswer(this)"></li>
+                    <li class="list-group-item answerGuess" data-value="" id="answer3" onclick="checkAnswer(this)"></li>
+                    <li class="list-group-item answerGuess" data-value="" id="answer4" onclick="checkAnswer(this)"></li>
+                </ul>
+            </div>  
+    </div><!-- end gameScreencontainer div -->
+    <div id="endscreen" class="container gameScreen" style="display:none">
+            <div id="endtext" class="col-md-12 col-xs-12 text-center" style="height:50vh">
+                <h1>GAME OVER</h1>
+            </div>
+    </div>
+    <div id="start" class="text-center"><button class="btn btn-primary btn-sx startButton" type="button" onclick="startGame('new')">START</button></div>
+    <div id="playagain" class="text-center" style="display:none"><button class="btn btn-primary btn-sx startButton" id="start" type="button" onclick="startGame('continue')">PLAY AGAIN</button></div>
+
+
+ <script src="./assets/javascript/jquery-3.3.1.min.js" type="text/javascript"></script>
+ <script type="text/javascript" src="./assets/javascript/app.js"></script>
+</body>
+</html>
