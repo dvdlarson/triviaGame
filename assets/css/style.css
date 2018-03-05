@@ -34,8 +34,8 @@ body {
     background-color:lightpink;
 }
 .questionText {
-    padding:2rem;
-    font-size:2.5rem;
+    padding:1rem;
+    font-size:1.5rem;
     font-family:sans-serif, Haettenschweiler, 'Arial Narrow Bold', Impact;
 }
 .answerGuess {
