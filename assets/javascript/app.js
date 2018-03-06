@@ -1,9 +1,149 @@
+var backupQuestions = [ 	
+    {
+        category:	"Entertainment: Film",
+        type:	"multiple",
+        difficulty:	"easy",
+        question:	"What breed of dog was &#039;Marley&#039; in the film &#039;Marley &amp; Me&#039;?",
+        correct_answer:	"Labrador Retriever",
+        incorrect_answers:[	
+        "Golden Retriever",
+        "Dalmatian",
+        "Shiba Inu"
+        ]
+    },
+    {
+    category:	"Entertainment: Film",
+    type:	"multiple",
+    difficulty:	"easy",
+    question:	"Who directed &quot;E.T. the Extra-Terrestrial&quot; (1982)?",
+    correct_answer:	"Steven Spielberg",
+    incorrect_answers:	
+        ["Stanley Kubrick",
+        "James Cameron",
+        "Tim Burton"]
+    },
+    
+    {
+    
+    category:	"Entertainment: Film",
+    type:	"multiple",
+    difficulty:	"easy",
+    question:	"Who wrote and directed the 1986 film &#039;Platoon&#039;?",
+    correct_answer:	"Oliver Stone",
+    incorrect_answers:	
+    ["Francis Ford Coppola",
+    "Stanley Kubrick",
+    "Michael Cimino"]
+    
+    },
+    
+        
+    {
+    category:	"Entertainment: Film",
+    type:	"multiple",
+    difficulty:	"easy",
+    question:	"This movie contains the quote, &quot;Nobody puts Baby in a corner.&quot;",
+    correct_answer:	"Dirty Dancing",
+    incorrect_answers:	
+       [ "Three Men and a Baby",
+        "Ferris Bueller&#039;s Day Off",
+        "Pretty in Pink"]
+    },
+    
+    
+    
+        
+    {
+    category:	"Entertainment: Film",
+    type:	"multiple",
+    difficulty:	"easy",
+    question:	"What is the orange and white bot&#039;s name in &quot;Star Wars: The Force Awakens&quot;?",
+    correct_answer:	"BB-8",
+    incorrect_answers:	
+                ["BB-3",
+                "AA-A",
+                "R2-D2"]
+    },
+    
+    
+    
+        
+    {
+    category:	"Entertainment: Film",
+    type:	"multiple",
+    difficulty:	"easy",
+    question:	"What was the first James Bond film?",
+    correct_answer:	"Dr. No",
+    incorrect_answers:
+        [   "Golddfinger",
+            "From Russia With Love",
+            "Thunderball"]
+    },
+    
+    
+    
+    {
+    category:	"Entertainment: Film",
+    type:	"multiple",
+    difficulty:	"easy",
+    question:	"Who in Pulp Fiction says &quot;No, they got the metric system there, they wouldn&#039;t know what the fuck a Quarter Pounder is.&quot;",
+    correct_answer:	"Vincent Vega",
+    incorrect_answers:	
+    ["Jules Winnfield",
+    "Jimmie Dimmick",
+    "Butch Coolidge"]
+    },
+    
+    
+    
+        
+    {
+    category:	"Entertainment: Film",
+    type:	"multiple",
+    difficulty:	"easy",
+    question:	"In the 1992 film &quot;Army of Darkness&quot;, what name does Ash give to his double-barreled shotgun?",
+    correct_answer:	"Boomstick",
+    incorrect_answers	:
+    ["Bloomstick",
+    "Blastbranch",
+    "2-Pump Chump"]
+    },
+    
+    
+    
+    {
+    category:	"Entertainment: Film",
+    type:	"multiple",
+    difficulty:	"easy",
+    question:	"At the end of the 2001 film &quot;Rat Race&quot;, whose concert do the contestants crash?",
+    correct_answer:	"Smash Mouth",
+    incorrect_answers:	
+        [   "Bowling for Soup",
+            "Sum 41",
+            "Linkin Park"]
+    },
+    
+    
+    {
+    category:	"Entertainment: Film",
+    type:	"multiple",
+    difficulty:	"easy",
+    question:	"For the film &quot;Raiders of The Lost Ark&quot;, what was Harrison Ford sick with during the filming of the Cairo chase?",
+    correct_answer:	"Dysentery",
+    incorrect_answers:	
+    ["Anemia",
+    "Constipation",
+    "Acid Reflux "]
+    }
+    
+    ]; 
+    
 
 
 
-
-var gameQuestions=[];
-var correctTotal=0;
+var gameQuestions = [];
+var planB = backupQuestions;
+var correctTotal = 0;
 var gameTimer;
 var intervalID;
 var questions = [];
@@ -66,16 +206,18 @@ var questions = [];
       
     function startGame(gameStatus){
             getQuestions();
-            if(gameQuestions==[]){
-                alert("There seems to be a problem with the database. Please wait a few minutes and try again");
-                location.reload(true);
+            correctTotal=0;
+            if(gameQuestions == []){
+                gameQuestions = planB; //hard coded array of questions to use in case of API failure at 2:17 am.
             };
             $("#playagain").attr("style","display:none");
+            $("#subheader").attr("style","display:none");
             $("#endscreen").attr("style","display:none");
             $("#start").attr("style","display:none");
+            $("#countdownText").attr("style","display:none");       //hide all the stuff 
             $("#playagain").attr("style","display:none");
             $("#titlescreen").attr("style","display:none");
-            $("#gamescreen").attr("style","display:visible");
+            $("#gamescreen").attr("style","display:visible");    // except the game screen
             $(".answerGuess").empty();
             $("#timer").empty();
             $("#subheader").empty();
@@ -88,7 +230,7 @@ var questions = [];
           else if (gameStatus=="continue") {
               startCountdown("Back again, eh? Game starts in: ");
               }
-          //hopefully the countdown finishes, then this stuff happens
+          //hopefully the countdown finishes, then the rest of this stuff happens
     
           
     
@@ -103,8 +245,11 @@ var questions = [];
        
 
   function nextQuestion(){
+
       $("#timer").attr("style","display:visible");
+      $("#countdownText").attr("style","display:none");
       $("#answerDiv").attr("style","display:visible");
+      $("#subheader").attr("style","display:visible");
       $("#timer").text("10");
       $("#subheader").empty();
       var questionsRemaining = gameQuestions.length; //questions are spliced from the gameQuestions array (at the end of the function) 
@@ -118,10 +263,10 @@ var questions = [];
       console.log("random ="+r);                // in a random order each time the game is played
 
                                                       //here we start setting variables based on the question object values
-      var correctAnswer = gameQuestions[r].correct_answer;//the correct answer is always the first option in the array of answers
+      var correctAnswer = gameQuestions[r].correct_answer;//grab the correct answer property value from the question object
       var questionText = gameQuestions[r].question;
   //    console.log("QT: "+ questionText);              
-      $("#questionText").text(questionText);     
+      $("#questionText").html(questionText);     
       var y = 0;
       var hidingSpot = getRandom(1,4);        //here randomizing where the correct answer is displayed in the 4 possible answer locations.
       console.log("hiding spot: "+hidingSpot);      // cheaters  can totally use this to get the answers
@@ -136,55 +281,52 @@ var questions = [];
           $("#answer"+i).html(incorrectAnswer);
           $("#answer"+i).attr("data-value","incorrect");
           y++;
-          // var z = getRandom(0,max);
-          // var incorrectAnswer = gameQuestions[x].answers[z];             //tried to randomize which wrong answer gets displayed next
-          // console.log(incorrectAnswer);
-          // $("#answer"+i).text(incorrectAnswer);
-          // $("#answer"+i).attr("data-value","incorrect");
-          // gameQuestions[x].answers.splice(z,1);
-          // y++;
+          
         }
       };
-      gameQuestions.splice(r,1);//remove question from gameQuestion array
-      timer();
-      // $("#timer").text("10");
-      // startTimer(100);
-      wait(1000);
-      setTimeout(showFact(funFact),5000);
-      console.log("funfact: " + funFact);
+      gameQuestions.splice(r,1);        //remove question from gameQuestion array
+      timer();                   //start the timer after everything else is done.
+      
   }
 
 
-          //this is the stuff that happens when you click an answer
+          //this is the stuff that is supposed to happen when you click an answer.
           //trying to:
-          // isolate the clicked answer on the screen, 
-          //change background color green if it is correct,red if incorrect, 
+          // isolate the clicked answer on the screen, (hide the other answers)
+          //change background color (i'd settle for text) green if it is correct,red if incorrect, 
           //display appropriate text in the subheader section, 
           //wait 250ms then reset the color and class of the item, 
           //finally check the gameQuestions array to see if it is empty
           //if so, game over, if not, nextQuestion
 
-    $(".answerGuess").on("click",function(){ 
-        clearInterval(intervalID); //stop the timer
-        $(this).attr("class","list-group-item answerGuessed"); //changing the class of just this one element.
-        $(".answerGuess").empty(); //clear out the other answer options
-                                        //do some stuff based on whether the guess was correct or not
-        if  ($(this).data("value")=="correct") {
+    $(".answerGuess").on("click",function() { 
+        clearInterval(intervalID);  //stop the timer
+     //   $("#subheader").attr("style","display:block"); //show the subheader
+     console.log("result:" + $(this).data("value"));
+     //   $(this).toggleClass("answerGuess"); //removing the class of just this one element for now
 
-            $(this).attr("style","background-color:green");
-            $("#subheader").text("That is correct!");
-            wait(250);
-            $(this).attr("style","background-color:none");
-            $(this).attr("class","list-group-item answerGuess");
-            correctTotal++;
-        }
+       // $(".answerGuess").empty(); //clear out the other answer options
+                              
+        if  ($(this).data("value")=="correct") {       //do some stuff based on whether the guess was correct or not
+
+    //    //     $(this).toggleClass("clicked");
+    //         $("#subheader").text("That is correct!");
+    //         wait(500);
+    //    //     $(this).attr("style","background-color:none");
+             $(this).attr("color","green");
+             wait(250);
+    //         $(this).attr("class","answerGuess");
+             correctTotal++;
+             console.log(correctTotal);
+         }
         else {
-            $(this).attr("style","background-color:red");
-            $("#subheader").text("Sorry, that's not correct.");
+            $(this).attr("color","red");
             wait(250);
-            $(this).attr("style","background-color:none");
-            $(this).attr("class","list-group-item answerGuess");
-        }
+    //         $("#subheader").text("Sorry, that's not correct.");
+    //         wait(250);
+    //         $(this).attr("style","background-color:none");
+    //         $(this).attr("class","list-group-item answerGuess");
+         }
         var questionsRemaining=gameQuestions.length;
         if (questionsRemaining==0) {
             gameOver();
@@ -204,7 +346,7 @@ var questions = [];
       $("#subheader").empty();
       $("#subheader").attr("style","display:none");
       $("#timer").empty();
-      $("#questionText").text("GAME OVER");
+      $("#questionText").text("GAME OVER").css("font-size:3rem");
       $("#countdownText").attr("style","display:block");
       $("#countdownText").text("You answered "+correctTotal+" questions correctly!");
     //  $("#gamescreen").attr("style","display:none");
@@ -251,9 +393,11 @@ function startCountdown(text) {
 
   $(".answerGuess").empty();
   $("#answerDiv").attr("style","display:none");
+  $("#countdownText").attr("style","display:block");
+  $("#subheader").attr("style","display:block");
   $("#subheader").empty();
   $("#countdownText").empty();
-  var timeleft = 5;
+  var timeleft = 4;
   intervalID = setInterval(function(){
   timeleft--;
   $("#countdownText").text(text + timeleft);
@@ -262,7 +406,7 @@ function startCountdown(text) {
       clearInterval(intervalID);
       $("#countdownText").text("Enjoy the game!");
       wait(2000);
-      $("#countdownText").attr("display:none");
+  //    $("#countdownText").attr("display:none"); - moved to nextquestion
       nextQuestion();
       
   }
